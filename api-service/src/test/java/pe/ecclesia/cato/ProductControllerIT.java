@@ -8,7 +8,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import pe.ecclesia.cato.api.dto.Product;
+import pe.ecclesia.cato.api.dto.ProductDto;
 import pe.ecclesia.cato.controller.ProductController;
 import pe.ecclesia.cato.service.ProductService;
 
@@ -22,7 +22,7 @@ import static org.mockito.Mockito.when;
 import static org.hamcrest.Matchers.hasSize;
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(controllers = ProductController.class)
-public class ProductControllerTest {
+public class ProductControllerIT {
 
     private final String PRODUCTS_PATH = "/products";
     @Autowired
@@ -32,8 +32,8 @@ public class ProductControllerTest {
     @Test
     @DisplayName("Should return List of products")
     public void when_get_products_return_list() throws Exception{
-        List<Product> products = new ArrayList<>();
-        Product product = new Product();
+        List<ProductDto> products = new ArrayList<>();
+        ProductDto product = new ProductDto();
         product.setName("colinos");
         products.add(product);
         when(productService.findAll()).thenReturn(products);

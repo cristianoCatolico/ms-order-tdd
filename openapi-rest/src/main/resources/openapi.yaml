@@ -27,7 +27,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Product'
+                  $ref: '#/components/schemas/ProductDto'
           description: Successful operation
       tags:
         - products
@@ -55,7 +55,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Order"
+                $ref: "#/components/schemas/OrderDto"
   /orders:
     get:
       tags:
@@ -71,7 +71,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Order"
+                  $ref: "#/components/schemas/OrderDto"
     post:
       tags:
         - orders
@@ -85,7 +85,7 @@ paths:
             schema:
               type: array
               items:
-                $ref: '#/components/schemas/Order'
+                $ref: '#/components/schemas/OrderDto'
         required: true
       responses:
         '200':
@@ -93,13 +93,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/orderPost"
+                $ref: "#/components/schemas/GeneralResponseDto"
         '405':
           description: Invalid input
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/orderPost"
+                $ref: "#/components/schemas/GeneralResponseDto"
   /orders/{codeNumber}:
     get:
       tags:
@@ -118,10 +118,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Order"
+                $ref: "#/components/schemas/OrderDto"
 components:
   schemas:
-    Order:
+    OrderDto:
       type: object
       properties:
         id:
@@ -131,6 +131,8 @@ components:
         codeNumber:
           type: string
           example: A01
+        clientId:
+          type: number
         productId:
           type: integer
           format: int64
@@ -147,17 +149,19 @@ components:
           description: Order Status
           example: approved
           enum:
+            - created
             - placed
             - approved
             - delivered
+            - discarded
         driver:
-          $ref: '#/components/schemas/Driver'
+          $ref: '#/components/schemas/DriverDto'
         complete:
           type: boolean
         address:
-          $ref: '#/components/schemas/Address'
+          $ref: '#/components/schemas/AddressDto'
 
-    Driver:
+    DriverDto:
       type: object
       properties:
         id:
@@ -170,7 +174,7 @@ components:
         carPlate:
           type: string
           example: A1A-123
-    Address:
+    AddressDto:
       type: object
       properties:
         street:
@@ -185,13 +189,13 @@ components:
         zip:
           type: string
           example: '94301'
-    Product:
+    ProductDto:
       type: object
       properties:
         name:
           type: string
           example: chocolate
-    orderPost:
+    GeneralResponseDto:
       type: object
       properties:
         status:

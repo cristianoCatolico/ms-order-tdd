@@ -1,0 +1,12 @@
+
+RUN mkdir /home/maven/project
+WORKDIR
+COPY api-service api-service
+COPY openapi-rest openapi-rest
+RUN
+
+FROM openjdk:17-alpine
+RUN addgroup -g 1001 -S appuser && adduser -S appuser -G appuser
+USER appuser
+COPY api-service/target/api-service-0.0.1-SNAPSHOT.jar /app/order-service.jar
+CMD ["java","-jar","/app/order-service.jar"]

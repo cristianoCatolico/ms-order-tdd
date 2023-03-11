@@ -8,7 +8,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import pe.ecclesia.cato.api.dto.Order;
+import pe.ecclesia.cato.api.dto.OrderDto;
 import pe.ecclesia.cato.controller.OrderController;
 import pe.ecclesia.cato.exception.OrderNotFoundException;
 import pe.ecclesia.cato.service.OrderService;
@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(controllers = OrderController.class)
-public class OrderControllerTest {
+public class OrderControllerIT {
     private static final String ORDERS_PATH = "/orders";
     @Autowired
     private MockMvc mockMvc;
@@ -31,8 +31,8 @@ public class OrderControllerTest {
     OrderService orderService;
     @Test
     public void getAllOrdersTest() throws  Exception{
-        List<Order> orders = new ArrayList<>();
-        Order orderDTO = new Order();
+        List<OrderDto> orders = new ArrayList<>();
+        OrderDto orderDTO = new OrderDto();
         orderDTO.setProductId(1L);
         orders.add(orderDTO);
         when(orderService.getAllOrders()).thenReturn(orders);
