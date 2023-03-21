@@ -1,2 +1,18 @@
 server:
-  port: 8000
+  port: 8080
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+      properties:
+        hibernate:
+          '[show_sql]': true
+          '[use_sql_comments]': false
+          '[format_sql]': true
+          '[event.merge.entity_copy_observer]': allow
+        show-sql: true
+  datasource:
+    username: catolico
+    password: 123
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3307/db?allowPublicKeyRetrieval=true&useSSL=false
+    driver-class-name: com.mysql.cj.jdbc.Driver

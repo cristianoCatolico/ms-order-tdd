@@ -1,12 +1,19 @@
-
-RUN mkdir /home/maven/project
-WORKDIR
-COPY api-service api-service
-COPY openapi-rest openapi-rest
-RUN
+FROM openjdk:17-alpine as build
+RUN mkdir /home/ms-order-tdd
+WORKDIR /home/ms-order-tdd
+COPY api-service/src api-service/src
+COPY api-service/pom.xml api-service/pom.xml
+COPY openapi-rest/src openapi-rest/src
+COPY openapi-rest/pom.xml openapi-rest/pom.xml
+COPY mvnw .
+COPY pom.xml .
+COPY .mvn .mvn
+RUN ./mvnw clean install
 
 FROM openjdk:17-alpine
+VOLUME /tmp
+ARG JAR_FILE=/home/ms-order-tdd/api-service/target
 RUN addgroup -g 1001 -S appuser && adduser -S appuser -G appuser
 USER appuser
-COPY api-service/target/api-service-0.0.1-SNAPSHOT.jar /app/order-service.jar
+COPY --from=build ${JAR_FILE}/*.jar /app/order-service.jar
 CMD ["java","-jar","/app/order-service.jar"]
